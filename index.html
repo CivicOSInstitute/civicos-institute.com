@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Open Source Student — Build AI Tools Locally | CivicOS Institute</title>
+  <meta name="description" content="216-page guide to building AI tools that run entirely on your laptop. No cloud. No subscriptions. No data sharing. $9.99.">
+  <meta name="keywords" content="local ai, ollama, build ai tools, open source ai, ai for students, ai literacy">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1a1a2e;
+      background: #f8f9fa;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      padding: 60px 0;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-text { flex: 1; min-width: 300px; }
+    .hero-image { flex: 0 0 280px; }
+    .hero-image .mock-cover {
+      width: 280px;
+      height: 380px;
+      background: linear-gradient(145deg, #0a1628, #1a3a5c);
+      border: 2px solid #c9a84c;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .mock-cover h2 {
+      font-size: 1.6em;
+      color: #c9a84c;
+      margin-bottom: 10px;
+    }
+    .mock-cover p { color: #aabbdd; font-size: 0.9em; }
+    .mock-cover .badge {
+      margin-top: 20px;
+      background: #c9a84c;
+      color: #1a1a2e;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85em;
+    }
+    .hero-text h1 { font-size: 2.4em; margin-bottom: 15px; line-height: 1.2; }
+    .hero-text p { font-size: 1.15em; opacity: 0.9; margin-bottom: 10px; }
+    .hero-text .tagline {
+      color: #c9a84c;
+      font-weight: 600;
+      font-size: 0.95em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.05em;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #c9a84c;
+      color: #1a1a2e;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #d4b85e;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(201,168,76,0.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .btn-secondary:hover { border-color: #c9a84c; }
+    .btn-amazon {
+      background: #ff9900;
+      color: #1a1a2e;
+      border: none;
+    }
+    .btn-amazon:hover { background: #ffad33; }
+    .cta-group { margin-top: 25px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .price-tag {
+      font-size: 2.2em;
+      font-weight: 800;
+      color: #c9a84c;
+    }
+    .price-compare {
+      font-size: 0.85em;
+      opacity: 0.6;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    /* Sections */
+    section { padding: 60px 0; }
+    section h2 { font-size: 1.8em; margin-bottom: 30px; text-align: center; }
+    section h2 span { color: #c9a84c; }
+
+    /* What's Inside */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .book-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .book-card h3 { font-size: 1.15em; margin-bottom: 6px; }
+    .book-card .price { color: #c9a84c; font-weight: 700; }
+    .book-card .included { color: #22c55e; font-size: 0.85em; font-weight: 600; }
+    .book-card p { font-size: 0.9em; color: #666; margin-top: 6px; }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+      text-align: center;
+    }
+    .stat h3 { font-size: 2em; color: #c9a84c; }
+    .stat p { font-size: 0.9em; color: #666; }
+
+    /* Who it's for */
+    .audience-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .audience-item {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .audience-item .emoji { font-size: 2em; margin-bottom: 8px; }
+    .audience-item h4 { font-weight: 600; margin-bottom: 4px; }
+
+    /* FAQ */
+    .faq-list { max-width: 700px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid #e0e0e0; padding: 18px 0; }
+    .faq-item h4 { font-weight: 600; margin-bottom: 6px; cursor: pointer; }
+    .faq-item h4::before { content: "+ "; color: #c9a84c; }
+    .faq-item p { font-size: 0.95em; color: #555; }
+
+    /* Bulk */
+    .bulk-cta {
+      background: #1a1a2e;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+    }
+    .bulk-cta h3 { font-size: 1.4em; margin-bottom: 12px; }
+    .bulk-cta p { opacity: 0.85; margin-bottom: 18px; }
+
+    /* Footer */
+    footer {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.85em;
+    }
+    footer a { color: #c9a84c; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      header { padding: 40px 0; }
+      .hero-text h1 { font-size: 1.8em; }
+      .hero-image .mock-cover { width: 200px; height: 280px; }
+      .cta-group { flex-direction: column; align-items: stretch; }
+      .btn { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="hero-text">
+      <div class="tagline">CivicOS Institute Press</div>
+      <h1>Build AI Tools on Your Laptop.<br>No Cloud. No Subscriptions. No Data Sharing.</h1>
+      <p>A complete 216-page guide that transforms you from AI consumer to AI builder — running powerful models on the machine you already own.</p>
+      <div class="price-tag">$9.99 <span class="price-compare">$41.94</span></div>
+      <p style="font-size:0.85em; opacity:0.7; margin-top:4px;">6 books compiled into one. 100% of proceeds fund CivicOS Institute.</p>
+      <div class="cta-group">
+        <a href="#" class="btn btn-primary" onclick="alert('Buy button — replace # with your Lemon Squeezy / Gumroad payment link'); return false;">Buy Direct — PDF + EPUB</a>
+        <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-secondary" target="_blank" rel="noopener">Amazon Kindle</a>
+      </div>
+      <p style="font-size:0.8em; opacity:0.5; margin-top:12px;">
+        Companion GitHub repo included with every purchase. Apache 2.0 licensed.
+      </p>
+    </div>
+    <div class="hero-image">
+      <div class="mock-cover">
+        <h2>THE OPEN<br>SOURCE<br>STUDENT</h2>
+        <p>Founders Complete Edition</p>
+        <div class="badge">FREE Companion Repo</div>
+        <p style="margin-top:12px; font-size:0.75em;">216 Pages · 6 Books in 1</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>What if you could run AI on <span>your</span> laptop?<br>No subscriptions. No cloud. No data leaving your machine.</h2>
+    <div class="stats">
+      <div class="stat"><h3>216</h3><p>Pages</p></div>
+      <div class="stat"><h3>17</h3><p>Chapters</p></div>
+      <div class="stat"><h3>6</h3><p>Books in 1</p></div>
+      <div class="stat"><h3>100%</h3><p>Funds Nonprofit</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background: white;">
+  <div class="container">
+    <h2>What's Inside</h2>
+    <p style="text-align:center; color:#666; margin-bottom:20px; max-width:600px; margin-left:auto; margin-right:auto;">
+      Six books compiled into one Founders Complete Edition. Purchased separately: <strong>$41.94</strong>. Together: <strong>$9.99</strong>.
+    </p>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>The Emergency Fix Card</h3>
+        <span class="price">$4.99</span>
+        <p>Quick-reference recovery guide. When your AI stops working, turn here first.</p>
+      </div>
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>The Hardware Guide</h3>
+        <span class="price">$5.99</span>
+        <p>What RAM do you actually need? Which models run on a MacBook Air? Hardware demystified.</p>
+      </div>
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>The Open Source Student</h3>
+        <span class="price">$9.99</span>
+        <p>Core guide. Install Ollama, run your first model, build real AI tools from scratch.</p>
+      </div>
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>Operational Guide</h3>
+        <span class="price">$5.99</span>
+        <p>Running AI in production. Managing models, memory, and multiple tool pipelines.</p>
+      </div>
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>Student Setup Checklist</h3>
+        <span class="price">$4.99</span>
+        <p>Step-by-step checklist. From zero to working AI assistant in one weekend.</p>
+      </div>
+      <div class="book-card">
+        <div class="included">✓ Included</div>
+        <h3>The Terminal Survival Guide</h3>
+        <span class="price">$9.99</span>
+        <p>Command line confidence. No prior experience needed. Every command explained.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Who This Book Is For</h2>
+    <div class="audience-list">
+      <div class="audience-item">
+        <div class="emoji">🎓</div>
+        <h4>Students</h4>
+        <p style="color:#666; font-size:0.85em;">Build AI assistants for every subject. Learn skills that compound.</p>
+      </div>
+      <div class="audience-item">
+        <div class="emoji">👪</div>
+        <h4>Parents</h4>
+        <p style="color:#666; font-size:0.85em;">Give your child real AI literacy — not just another chat interface.</p>
+      </div>
+      <div class="audience-item">
+        <div class="emoji">🧑‍🏫</div>
+        <h4>Educators</h4>
+        <p style="color:#666; font-size:0.85em;">Practical curriculum for teaching AI literacy without vendor lock-in.</p>
+      </div>
+      <div class="audience-item">
+        <div class="emoji">💻</div>
+        <h4>Career Switchers</h4>
+        <p style="color:#666; font-size:0.85em;">Portfolio-ready skills. Real projects. No degree required.</p>
+      </div>
+      <div class="audience-item">
+        <div class="emoji">🏛️</div>
+        <h4>Civic Technologists</h4>
+        <p style="color:#666; font-size:0.85em;">Build government transparency tools with AI you control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: white;">
+  <div class="container" style="text-align:center;">
+    <h2>What You'll Learn to Build</h2>
+    <div style="max-width:600px; margin:0 auto; text-align:left;">
+      <p style="margin:12px 0;">✅ <strong>Homework Assistant</strong> — Socratic method problem-solving for any subject</p>
+      <p style="margin:12px 0;">✅ <strong>Research Assistant</strong> — Synthesize sources, evaluate arguments, cite correctly</p>
+      <p style="margin:12px 0;">✅ <strong>Writing Coach</strong> — Brainstorm, outline, strengthen arguments, edit</p>
+      <p style="margin:12px 0;">✅ <strong>Personal Tutor</strong> — Adaptive learning with practice problems and explanations</p>
+      <p style="margin:12px 0;">✅ <strong>AI Agent Library</strong> — Study schedule helper, exam prep, anti-procrastination coach</p>
+    </div>
+    <p style="margin-top:30px;"><strong>Everything runs entirely on your machine.</strong> No internet required after setup.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="bulk-cta">
+      <h3>📚 Institutional & Bulk Pricing</h3>
+      <p>Teaching a class? Running a training program? Bulk licenses available at dramatically reduced rates.</p>
+      <p><strong>10+ copies: $5/each &nbsp;·&nbsp; 25+ copies: $4/each &nbsp;·&nbsp; 50+ copies: $3/each</strong></p>
+      <p style="font-size:0.85em; opacity:0.7;">Includes full companion repo access for every licensee.</p>
+      <a href="mailto:NCerbone@civicos-institute.org?subject=Bulk%20Licensing%20-%20The%20Open%20Source%20Student" class="btn btn-primary">Email for Bulk Pricing →</a>
+    </div>
+  </div>
+</section>
+
+<section style="background: white;">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h4>What formats is the book available in?</h4>
+        <p>PDF and EPUB via direct purchase. Kindle format on Amazon. All formats included in the $9.99 price.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is this the same as the free AI Learning Kit?</h4>
+        <p>No. The free AI Learning Kit contains introductory materials. The Founders Complete Edition is a full 216-page practical guide that teaches you to install and run AI locally, build tools, create agents, and use AI responsibly — with complete privacy and no subscriptions.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do I need a powerful computer?</h4>
+        <p>No. Everything in this book runs on consumer hardware — MacBook Air, Windows laptop, Linux machine. The Hardware Guide chapter covers exactly what you need for your specific machine.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Does the book include access to code?</h4>
+        <p>Yes. All purchasers receive access to a companion GitHub repository with reference implementations, code examples, specification documents, and supplementary materials. Apache 2.0 licensed.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Where does the money go?</h4>
+        <p>100% of proceeds fund CivicOS Institute — a nonprofit building open-source tools for government transparency. Your purchase pays for code, not overhead.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is there bulk or institutional pricing?</h4>
+        <p>Yes. Contact NCerbone@civicos-institute.org for academic, library, and organizational licensing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#1a1a2e; color:white; text-align:center; padding:50px 20px;">
+  <div class="container">
+    <h2 style="color:white; margin-bottom:15px;">Stop renting AI. Start building it.</h2>
+    <p style="max-width:500px; margin:0 auto 25px; opacity:0.85;">
+      216 pages, 17 chapters, 6 books compiled into one. Your complete guide to AI independence — and 100% of the proceeds fund open-source government transparency.
+    </p>
+    <div class="cta-group" style="justify-content:center;">
+      <a href="#" class="btn btn-primary" onclick="alert('Buy button — replace # with your payment link'); return false;">Buy Direct — $9.99</a>
+      <a href="https://www.amazon.com/dp/B0GQ5JM6LT" class="btn btn-secondary" target="_blank" rel="noopener">Amazon Kindle</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><a href="https://civicos-institute.org">CivicOS Institute</a> — Building open civic infrastructure for the public good.</p>
+    <p style="margin-top:8px;">The Open Source Student: Founders Complete Edition · ISBN: TBD · © CivicOS Institute Press</p>
+    <p style="margin-top:4px;">All proceeds support the CivicOS Institute's 501(c)(3) formation and research projects.</p>
+  </div>
+</footer>
+
+</body>
+</html>
